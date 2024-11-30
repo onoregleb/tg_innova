@@ -10,7 +10,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chat_models.gigachat import GigaChat
 from langchain.chains import create_retrieval_chain
 
-# Загрузка переменных окружения
 load_dotenv('.env')
 
 # Ключ для GigaChat
