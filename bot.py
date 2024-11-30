@@ -2,8 +2,6 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
-from aiohttp import web
 import os
 from dotenv import load_dotenv
 from main import retrieval_chain  # Импорт retrieval_chain из main.py
@@ -13,7 +11,6 @@ load_dotenv('.env')
 
 # Инициализация бота
 bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-webhook_url = os.getenv("WEBHOOK_URL")  # Публичный URL для вебхука
 bot = Bot(token=bot_token)
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -34,23 +31,14 @@ async def handle_message(message: Message):
     except Exception as e:
         await message.answer(f"Произошла ошибка: {str(e)}")
 
-# Основная функция запуска бота с вебхуком
+# Основная функция для запуска бота с использованием polling
 async def main():
-    # Установка вебхука
-    await bot.set_webhook(url=webhook_url)
-
-    # Создание веб-приложения
-    app = web.Application()
-    SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path="/webhook")
-
-    # Запуск сервера
-    print("Бот запущен и ждет сообщений через вебхук!")
-    await setup_application(app, dp)
-    return app
+    # Запуск бота в режиме polling
+    print("Бот запущен и ждет сообщений!")
+    await dp.start_polling(bot)
 
 if __name__ == "__main__":
     import asyncio
 
-    # Запускаем веб-приложение
-    app = asyncio.run(main())
-    web.run_app(app, host="0.0.0.0", port=8080)
+    # Запуск бота
+    asyncio.run(main())
