@@ -4,7 +4,7 @@ from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
 import os
 from dotenv import load_dotenv
-from main import retrieval_chain  # Импорт retrieval_chain из main.py
+from main import retrieval_chain
 
 # Загрузка переменных окружения
 load_dotenv('.env')
