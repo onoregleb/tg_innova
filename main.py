@@ -53,7 +53,7 @@ def load_all_docx_from_folder(folder_path: str):
 
 
 # Путь к папке с файлами .docx
-folder_path = "./docx_folder"
+folder_path = "docs"
 docs = load_all_docx_from_folder(folder_path)
 
 # Разделение текстов на части
